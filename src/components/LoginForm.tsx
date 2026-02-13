@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../lib/data";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema, type LoginFormValues } from "../lib/zod";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginForm = () => {
+  const {login} = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -17,10 +18,11 @@ const LoginForm = () => {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      await loginUser({
+      await login({
         email: values.email,
         password: values.password,
       });
+      console.log("Redirect login succes")
       navigate("/");
     } catch {
       alert("Login failed");
@@ -78,12 +80,12 @@ const LoginForm = () => {
       </button>
       <p className="text-center text-sm text-gray-600">
         Don't have an account?{" "}
-        <a
-          href="/register"
+        <Link
+          to="/register"
           className="font-medium text-indigo-600 hover:text-indigo-500"
         >
           Register
-        </a>
+        </Link>
       </p>
     </form>
   );
