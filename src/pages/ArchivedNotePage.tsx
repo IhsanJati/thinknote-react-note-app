@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Search, MoreVertical, Calendar, Loader2 } from "lucide-react";
+import { Search, Calendar, Loader2 } from "lucide-react";
 import { getArchivedNotes } from "../lib/data";
 import type { Note } from "../types/types";
 import { formatDate } from "../lib/utils";
 import AppNavbar from "../components/AppNavbar";
+import { useNavigate } from "react-router-dom";
 
 const ArchivedPage = () => {
   const { user } = useAuth();
@@ -13,6 +14,9 @@ const ArchivedPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -29,9 +33,9 @@ const ArchivedPage = () => {
     fetchNotes();
   }, []);
 
-   if (!user) {
-     return;
-   }
+  if (!user) {
+    return;
+  }
 
   const filteredNotes = notes.filter(
     (note) =>
@@ -83,16 +87,11 @@ const ArchivedPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredNotes.map((note) => (
               <div
+                onClick={() => navigate(`/note/${note.id}`)}
                 key={note.id}
-                className="group relative rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden h-62.5"
+                className="group relative rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden h-62.5 cursor-pointer"
               >
                 <div className="p-6 flex flex-col h-full">
-                  <div className="flex justify-end mb-2">
-                    <button className="text-zinc-400 hover:text-zinc-900 transition-colors">
-                      <MoreVertical className="h-4 w-4" />
-                    </button>
-                  </div>
-
                   <h3 className="font-semibold leading-none tracking-tight mb-1 pb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
                     {note.title}
                   </h3>
