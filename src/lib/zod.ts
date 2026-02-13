@@ -20,3 +20,10 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+export const createNoteSchema = z.object({
+  title: z.string().min(1, "Title minimal 1 karakter"),
+  body: z.string().min(1, "Body minimal 1 karakter"),
+});
+
+export type CretaNoteValues = z.infer<typeof createNoteSchema>;
