@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Search, MoreVertical, Calendar, Loader2 } from "lucide-react";
-import { getNotes } from "../lib/data";
+import { getArchivedNotes } from "../lib/data";
 import type { Note } from "../types/types";
 import { formatDate } from "../lib/utils";
-import { AddNoteButton, SignOutButton } from "../components/Buttons";
+import { SignOutButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 
-const DashboardPage = () => {
+const ArchivedPage = () => {
   const { user } = useAuth();
 
   const [notes, setNotes] = useState<Note[]>([]);
@@ -19,7 +19,7 @@ const DashboardPage = () => {
     const fetchNotes = async () => {
       try {
         setLoading(true);
-        const response = await getNotes();
+        const response = await getArchivedNotes();
         setNotes(response.data);
       } catch (_err) {
         setError("Failed to fetch notes");
@@ -50,7 +50,9 @@ const DashboardPage = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link className="font-semibold hover:underline" to="/archived">Archived</Link>
+            <Link className="font-semibold hover:underline" to="/archived">
+              Archived
+            </Link>
             <div className="flex items-center gap-3 pl-4 border-zinc-200">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium leading-none">
@@ -80,7 +82,7 @@ const DashboardPage = () => {
             <p className="text-zinc-500">
               {loading
                 ? "Memuat catatan..."
-                : `Anda memiliki ${notes.length} catatan aktif.`}
+                : `Anda memiliki ${notes.length} catatan yang diarsipkan.`}
             </p>
           </div>
 
@@ -95,8 +97,6 @@ const DashboardPage = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-
-            <AddNoteButton />
           </div>
         </div>
 
@@ -145,7 +145,7 @@ const DashboardPage = () => {
               <Search className="h-6 w-6 text-zinc-400" />
             </div>
             <h3 className="font-medium text-zinc-900">
-              Tidak ada catatan ditemukan
+              Tidak ada catatan arsip yang ditemukan
             </h3>
             <p className="text-zinc-500 text-sm mt-1">
               {searchQuery
@@ -159,4 +159,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default ArchivedPage;

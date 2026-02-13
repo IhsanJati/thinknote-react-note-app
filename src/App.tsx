@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 import CreateNotePage from "./pages/CreateNote";
+import ArchivedPage from "./pages/ArchivedNotePage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/create" element={<CreateNotePage />} />
+          <Route path="/archived" element={<ArchivedPage />} />
         </Route>
       </Routes>
     </>
