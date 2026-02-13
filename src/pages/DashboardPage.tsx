@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import {
-  Search,
-  Bell,
-  MoreVertical,
-  Calendar,
-  Loader2,
-} from "lucide-react";
+import { Search, MoreVertical, Calendar, Loader2 } from "lucide-react";
 import { getNotes } from "../lib/data";
 import type { Note } from "../types/types";
 import { formatDate } from "../lib/utils";
-import { AddNoteButton } from "../components/Button";
+import { AddNoteButton, SignOutButton } from "../components/buttons";
 
 const DashboardPage = () => {
   const { user } = useAuth();
@@ -55,10 +49,7 @@ const DashboardPage = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="p-2 text-zinc-500 hover:bg-zinc-100 rounded-full transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 pl-4 border-l border-zinc-200">
+            <div className="flex items-center gap-3 pl-4 border-zinc-200">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium leading-none">
                   {user?.name || "User"}
@@ -72,6 +63,9 @@ const DashboardPage = () => {
                   {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
                 </span>
               </div>
+            </div>
+            <div>
+              <SignOutButton />
             </div>
           </div>
         </div>
