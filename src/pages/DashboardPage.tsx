@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import {
   Search,
-  Plus,
   Bell,
   MoreVertical,
   Calendar,
@@ -11,6 +10,7 @@ import {
 import { getNotes } from "../lib/data";
 import type { Note } from "../types/types";
 import { formatDate } from "../lib/utils";
+import { AddNoteButton } from "../components/Button";
 
 const DashboardPage = () => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900">
       <nav className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center text-white font-bold">
               T
@@ -77,11 +77,11 @@ const DashboardPage = () => {
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-8">
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
-              Dashboard
+              Welcome back, {user?.name}
             </h1>
             <p className="text-zinc-500">
               {loading
@@ -102,27 +102,20 @@ const DashboardPage = () => {
               />
             </div>
 
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-zinc-900 text-zinc-50 hover:bg-zinc-900/90 h-10 px-4 py-2">
-              <Plus className="mr-2 h-4 w-4" />
-              Baru
-            </button>
+            <AddNoteButton />
           </div>
         </div>
 
-        {/* CONTENT AREA: Loading, Error, or Grid */}
         {loading ? (
-          // STATE: LOADING
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="h-10 w-10 animate-spin text-zinc-400 mb-4" />
             <p className="text-zinc-500">Sedang mengambil data...</p>
           </div>
         ) : error ? (
-          // STATE: ERROR
           <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg text-center">
             <p>{error}</p>
           </div>
         ) : filteredNotes.length > 0 ? (
-          // STATE: SUCCESS & DATA ADA
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredNotes.map((note) => (
               <div
@@ -131,13 +124,12 @@ const DashboardPage = () => {
               >
                 <div className="p-6 flex flex-col h-full">
                   <div className="flex justify-end mb-2">
-                    
                     <button className="text-zinc-400 hover:text-zinc-900 transition-colors">
                       <MoreVertical className="h-4 w-4" />
                     </button>
                   </div>
 
-                  <h3 className="font-semibold leading-none tracking-tight mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
+                  <h3 className="font-semibold leading-none tracking-tight mb-1 pb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
                     {note.title}
                   </h3>
 
@@ -154,7 +146,6 @@ const DashboardPage = () => {
             ))}
           </div>
         ) : (
-          // STATE: EMPTY
           <div className="flex flex-col items-center justify-center py-12 text-center border border-dashed border-zinc-300 rounded-xl bg-zinc-50/50">
             <div className="bg-zinc-100 p-3 rounded-full mb-3">
               <Search className="h-6 w-6 text-zinc-400" />
