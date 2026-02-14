@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import AppNavbar from "../components/AppNavbar";
-import { getNoteById } from "../lib/data";
+import { deleteNote, getNoteById } from "../lib/data";
 import type { Note } from "../types/types";
-import { Loader2, ArrowLeft, Calendar, Archive, Trash2 } from "lucide-react";
+import { Loader2, ArrowLeft, Calendar, Archive } from "lucide-react";
 import { formatDate } from "../lib/utils";
+import { DeleteNoteButton } from "../components/Buttons";
 
 const DetailNotePage = () => {
   const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
-  
+
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchNoteDetail = async () => {
       if (!id) return;
@@ -27,12 +28,10 @@ const DetailNotePage = () => {
         if (response && response.data) {
           setNote(response.data);
         } else {
-          throw new Error("Data tidak ditemukan");
+          throw new Error("Data not found");
         }
       } catch (_err) {
-        setError(
-          "Gagal memuat catatan. Catatan mungkin sudah dihapus atau ID salah.",
-        );
+        setError("Failed to fetch note");
       } finally {
         setLoading(false);
       }
@@ -44,6 +43,17 @@ const DetailNotePage = () => {
   if (!user) {
     return null;
   }
+
+  const onDeleteHandler = async () => {
+    try {
+      if (!id) return;
+
+      await deleteNote(id);
+      navigate("/");
+    } catch (_err) {
+      setError("Failed to delete note");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900">
@@ -105,12 +115,7 @@ const DetailNotePage = () => {
                   >
                     <Archive className="h-5 w-5" />
                   </button>
-                  <button
-                    className="p-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-md transition-colors"
-                    title="Hapus"
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </button>
+                  <DeleteNoteButton onClickHandler={onDeleteHandler} />
                 </div>
               </div>
             </header>

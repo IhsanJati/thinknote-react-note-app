@@ -1,6 +1,7 @@
-import { Plus, LogOut } from "lucide-react";
+import { Plus, LogOut, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import type { MouseEventHandler } from "react";
 
 export const AddNoteButton = () => {
   return (
@@ -11,6 +12,22 @@ export const AddNoteButton = () => {
       <Plus className="mr-2 h-4 w-4" />
       Add
     </Link>
+  );
+};
+
+export const DeleteNoteButton = ({
+  onClickHandler,
+}: {
+  onClickHandler: MouseEventHandler<HTMLButtonElement>;
+}) => {
+  return (
+    <button
+      onClick={onClickHandler}
+      className="p-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-md transition-colors cursor-pointer"
+      title="Hapus"
+    >
+      <Trash2 className="h-5 w-5" />
+    </button>
   );
 };
 
