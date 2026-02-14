@@ -20,7 +20,7 @@ const CreateNotePage = () => {
           className="group mb-6 flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors cursor-pointer"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Batal & Kembali
+          Cancel & Back
         </button>
 
         <div
@@ -29,13 +29,10 @@ const CreateNotePage = () => {
           dark:bg-zinc-900 dark:border-zinc-800 transition-colors duration-300
         "
         >
-          <div className="mb-8 border-b border-zinc-100 dark:border-zinc-800 pb-6">
+          <div className="mb-8 border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-2">
-              Buat Catatan Baru
+              Create New Note
             </h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Tuangkan idemu. Jangan khawatir, kamu bisa mengeditnya nanti.
-            </p>
           </div>
 
           <CreateNoteForm />

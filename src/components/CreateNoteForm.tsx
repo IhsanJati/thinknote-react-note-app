@@ -41,7 +41,7 @@ const CreateNoteForm = () => {
           htmlFor="title"
           className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
         >
-          Judul Catatan
+          Title
         </label>
         <input
           id="title"
@@ -50,7 +50,7 @@ const CreateNoteForm = () => {
           className={`h-10 px-3 py-2 ${baseInputStyles} ${
             errors.title ? errorInputStyles : normalInputStyles
           }`}
-          placeholder="Contoh: Belanja Bulanan"
+          placeholder="Example: Jarkom Task"
           disabled={isSubmitting}
         />
         {errors.title && (
@@ -64,7 +64,7 @@ const CreateNoteForm = () => {
           htmlFor="body"
           className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
         >
-          Isi Catatan
+          Body
         </label>
         <textarea
           id="body"
@@ -73,7 +73,7 @@ const CreateNoteForm = () => {
           className={`p-3 resize-none ${baseInputStyles} ${
             errors.body ? errorInputStyles : normalInputStyles
           }`}
-          placeholder="Tulis detail catatanmu di sini..."
+          placeholder="Write your note here..."
           disabled={isSubmitting}
         />
         {errors.body && (
@@ -96,12 +96,12 @@ const CreateNoteForm = () => {
         {isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Menyimpan...
+            Saving...
           </>
         ) : (
           <>
             <Save className="mr-2 h-4 w-4" />
-            Simpan Catatan
+            Save Note
           </>
         )}
       </button>

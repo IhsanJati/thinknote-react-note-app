@@ -54,8 +54,8 @@ const ArchivedPage = () => {
             </h1>
             <p className="text-zinc-500 dark:text-zinc-400 transition-colors">
               {loading
-                ? "Memuat catatan..."
-                : `Anda memiliki ${notes.length} catatan yang diarsipkan.`}
+                ? "Load note..."
+                : `You have ${notes.length} archived note.`}
             </p>
           </div>
           <div className="flex items-center gap-2 w-full md:w-auto">
@@ -63,8 +63,7 @@ const ArchivedPage = () => {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500 dark:text-zinc-400" />
               <input
                 type="text"
-                placeholder="Cari catatan..."
-                // Input Style: White -> Zinc-900 + Border adjustments
+                placeholder="Find note..."
                 className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 pl-9 text-sm outline-none transition-colors
                 focus-visible:ring-2 focus-visible:ring-zinc-950 
                 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus-visible:ring-zinc-500"
@@ -78,7 +77,7 @@ const ArchivedPage = () => {
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="h-10 w-10 animate-spin text-zinc-400 dark:text-zinc-600 mb-4" />
             <p className="text-zinc-500 dark:text-zinc-400">
-              Sedang mengambil data...
+              Load note data...
             </p>
           </div>
         ) : error ? (
@@ -117,7 +116,7 @@ const ArchivedPage = () => {
               <Search className="h-6 w-6 text-zinc-400 dark:text-zinc-500" />
             </div>
             <h3 className="font-medium text-zinc-900 dark:text-zinc-100">
-              Tidak ada catatan arsip yang ditemukan
+              No note found
             </h3>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
               {searchQuery

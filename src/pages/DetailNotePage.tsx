@@ -88,20 +88,20 @@ const DetailNotePage = () => {
           dark:text-zinc-400 dark:hover:text-zinc-200"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Kembali
+          Back
         </button>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 min-h-[50vh]">
             <Loader2 className="h-10 w-10 animate-spin text-zinc-400 dark:text-zinc-600 mb-4" />
             <p className="text-zinc-500 dark:text-zinc-400">
-              Sedang mengambil catatan...
+              Load note...
             </p>
           </div>
         ) : error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center dark:bg-red-900/10 dark:border-red-900">
             <h3 className="text-lg font-semibold text-red-700 dark:text-red-400 mb-2">
-              Terjadi Kesalahan
+              Something wrong
             </h3>
             <p className="text-red-600 dark:text-red-300 mb-6">{error}</p>
             <button
@@ -110,7 +110,7 @@ const DetailNotePage = () => {
               bg-white border border-red-200 text-red-700 hover:bg-red-100
               dark:bg-zinc-900 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/30"
             >
-              Kembali ke Dashboard
+              Back to Dashboard
             </button>
           </div>
         ) : note ? (
