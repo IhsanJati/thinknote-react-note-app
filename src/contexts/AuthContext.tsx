@@ -20,13 +20,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Efek untuk cek login saat aplikasi pertama dibuka
   useEffect(() => {
     const initAuth = async () => {
       const token = getAccessToken();
       if (token) {
         try {
-          const { data } = await getCurrentUser(); // Panggil API getUser
+          const { data } = await getCurrentUser();
           setUser(data);
         } catch (_error) {
           console.error("Token expired or invalid");
@@ -39,8 +38,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (credentials: LoginRequest) => {
-    await loginApi(credentials); // data.ts menyimpan token otomatis
-    const { data } = await getCurrentUser(); // Ambil data user setelah login sukses
+    await loginApi(credentials);
+    const { data } = await getCurrentUser();
     setUser(data);
   };
 
