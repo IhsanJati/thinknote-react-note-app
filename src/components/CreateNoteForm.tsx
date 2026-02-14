@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { createNoteSchema, type CretaNoteValues } from "../lib/zod";
 import { createNote } from "../lib/data";
+import { Loader2, Save } from "lucide-react";
 
 const CreateNoteForm = () => {
   const navigate = useNavigate();
@@ -24,41 +25,59 @@ const CreateNoteForm = () => {
     }
   };
 
-  const inputStyle = `appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 
-    focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`;
+  const baseInputStyles =
+    "block w-full rounded-md border text-sm shadow-sm transition-colors focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50";
+
+  const normalInputStyles =
+    "border-zinc-200 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-zinc-900/10 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-600 dark:focus:border-zinc-100 dark:focus:ring-zinc-100/20";
+
+  const errorInputStyles =
+    "border-red-500 bg-red-50 text-red-900 placeholder:text-red-400 focus:border-red-500 focus:ring-red-500/20 dark:bg-red-950/30 dark:border-red-900 dark:text-red-200";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Title</label>
-        <div className="mt-1">
-          <input
-            {...register("title")}
-            className={`${inputStyle} ${
-              errors.title ? "border-red-300" : "border-gray-300"
-            }`}
-            placeholder="Title"
-          />
-        </div>
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
+        >
+          Judul Catatan
+        </label>
+        <input
+          id="title"
+          type="text"
+          {...register("title")}
+          className={`h-10 px-3 py-2 ${baseInputStyles} ${
+            errors.title ? errorInputStyles : normalInputStyles
+          }`}
+          placeholder="Contoh: Belanja Bulanan"
+          disabled={isSubmitting}
+        />
         {errors.title && (
-          <p className="mt-1 text-xs text-red-600 font-medium">
+          <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 animate-in slide-in-from-top-1">
             {errors.title.message}
           </p>
         )}
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Body</label>
-        <div className="mt-1">
-          <textarea
-            {...register("body")}
-            className={`${inputStyle} ${
-              errors.body ? "border-red-300" : "border-gray-300"
-            }`}
-            placeholder="Type your note here"
-          />
-        </div>
+        <label
+          htmlFor="body"
+          className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
+        >
+          Isi Catatan
+        </label>
+        <textarea
+          id="body"
+          rows={6}
+          {...register("body")}
+          className={`p-3 resize-none ${baseInputStyles} ${
+            errors.body ? errorInputStyles : normalInputStyles
+          }`}
+          placeholder="Tulis detail catatanmu di sini..."
+          disabled={isSubmitting}
+        />
         {errors.body && (
-          <p className="mt-1 text-xs text-red-600 font-medium">
+          <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 animate-in slide-in-from-top-1">
             {errors.body.message}
           </p>
         )}
@@ -66,9 +85,25 @@ const CreateNoteForm = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+        className="
+          w-full flex items-center justify-center py-2.5 px-4 rounded-md shadow-sm text-sm font-medium transition-all cursor-pointer
+          text-zinc-50 bg-zinc-900 hover:bg-zinc-800
+          dark:text-zinc-900 dark:bg-zinc-50 dark:hover:bg-zinc-200
+          disabled:opacity-70 disabled:cursor-not-allowed
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 dark:focus:ring-zinc-100 dark:ring-offset-zinc-900
+        "
       >
-        {isSubmitting ? "Creating..." : "Create"}
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Menyimpan...
+          </>
+        ) : (
+          <>
+            <Save className="mr-2 h-4 w-4" />
+            Simpan Catatan
+          </>
+        )}
       </button>
     </form>
   );

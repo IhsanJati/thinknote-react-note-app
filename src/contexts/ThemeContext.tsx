@@ -10,7 +10,6 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  // Ambil dari localStorage saat inisialisasi
   const [theme, setTheme] = useState<Theme>(() => {
     return (localStorage.getItem("theme") as Theme) || "light";
   });
@@ -18,10 +17,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme); // Persist ke storage
+    localStorage.setItem("theme", newTheme);
   };
 
-  // Update class di body/html untuk styling global
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
