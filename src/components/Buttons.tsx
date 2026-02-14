@@ -1,4 +1,4 @@
-import { Plus, LogOut, Trash2 } from "lucide-react";
+import { Plus, LogOut, Trash2, Archive } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { MouseEventHandler } from "react";
@@ -24,9 +24,27 @@ export const DeleteNoteButton = ({
     <button
       onClick={onClickHandler}
       className="p-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-md transition-colors cursor-pointer"
-      title="Hapus"
+      title="Delete"
     >
       <Trash2 className="h-5 w-5" />
+    </button>
+  );
+};
+
+export const ArchiveNoteButton = ({
+  onClickHandler,
+  title,
+}: {
+  onClickHandler: MouseEventHandler<HTMLButtonElement>;
+  title: string;
+}) => {
+  return (
+    <button
+      onClick={onClickHandler}
+      className="p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 rounded-md transition-colors cursor-pointer"
+      title={title}
+    >
+      <Archive className="h-5 w-5" />
     </button>
   );
 };

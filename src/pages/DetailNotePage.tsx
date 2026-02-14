@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import AppNavbar from "../components/AppNavbar";
-import { deleteNote, getNoteById } from "../lib/data";
+import {
+  archiveNote,
+  deleteNote,
+  getNoteById,
+  unarchiveNote,
+} from "../lib/data";
 import type { Note } from "../types/types";
 import { Loader2, ArrowLeft, Calendar, Archive } from "lucide-react";
 import { formatDate } from "../lib/utils";
-import { DeleteNoteButton } from "../components/Buttons";
+import { ArchiveNoteButton, DeleteNoteButton } from "../components/Buttons";
 
 const DetailNotePage = () => {
   const { user } = useAuth();
@@ -40,18 +45,34 @@ const DetailNotePage = () => {
     fetchNoteDetail();
   }, [id]);
 
-  if (!user) {
-    return null;
+  if (!user || !id) {
+    return <Navigate to="/" replace />;
   }
 
   const onDeleteHandler = async () => {
     try {
-      if (!id) return;
-
       await deleteNote(id);
       navigate("/");
     } catch (_err) {
       setError("Failed to delete note");
+    }
+  };
+
+  const onArchiveHandler = async () => {
+    try {
+      await archiveNote(id);
+      navigate("/archived");
+    } catch (_err) {
+      setError("Failed to archive note");
+    }
+  };
+
+  const onUnarchiveHandler = async () => {
+    try {
+      await unarchiveNote(id);
+      navigate("/");
+    } catch (_err) {
+      setError("Failed to unarchive note");
     }
   };
 
@@ -62,7 +83,7 @@ const DetailNotePage = () => {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <button
           onClick={() => navigate(-1)}
-          className="group mb-6 flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+          className="group mb-6 flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Kembali
@@ -103,18 +124,23 @@ const DetailNotePage = () => {
                     {note.archived && (
                       <span className="flex items-center gap-1.5 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full border border-yellow-200">
                         <Archive className="h-3 w-3" />
-                        Arsip
+                        Archived
                       </span>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    className="p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 rounded-md transition-colors"
-                    title="Arsipkan"
-                  >
-                    <Archive className="h-5 w-5" />
-                  </button>
+                  {note.archived ? (
+                    <ArchiveNoteButton
+                      title="Unarchive"
+                      onClickHandler={onUnarchiveHandler}
+                    />
+                  ) : (
+                    <ArchiveNoteButton
+                      title="Archive"
+                      onClickHandler={onArchiveHandler}
+                    />
+                  )}
                   <DeleteNoteButton onClickHandler={onDeleteHandler} />
                 </div>
               </div>
