@@ -3,9 +3,12 @@ import { ArrowLeft } from "lucide-react";
 import CreateNoteForm from "../components/CreateNoteForm";
 import AppNavbar from "../components/AppNavbar";
 import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContexts";
 
 const CreateNotePage = () => {
   const { user } = useAuth();
+  const { language } = useLanguage();
+
   const navigate = useNavigate();
 
   if (!user) return null;
@@ -20,7 +23,7 @@ const CreateNotePage = () => {
           className="group mb-6 flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors cursor-pointer"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Cancel & Back
+          {language === "en" ? "Cancel & Back" : "Batal & Kembali"}
         </button>
 
         <div
@@ -31,11 +34,11 @@ const CreateNotePage = () => {
         >
           <div className="mb-8 border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-2">
-              Create New Note
+              {language === "en" ? "Create New Note" : "Buat Catatan Baru"}
             </h1>
           </div>
 
-          <CreateNoteForm />
+          <CreateNoteForm/>
         </div>
       </main>
     </div>

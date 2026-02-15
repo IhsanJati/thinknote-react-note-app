@@ -6,9 +6,11 @@ import type { Note } from "../types/types";
 import { formatDate } from "../lib/utils";
 import AppNavbar from "../components/AppNavbar";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContexts";
 
 const ArchivedPage = () => {
   const { user } = useAuth();
+  const { language } = useLanguage();
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,12 +52,16 @@ const ArchivedPage = () => {
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 transition-colors">
-              Welcome back, {user?.name}
+              {language === "en"
+                ? `Welcome back, ${user.name}`
+                : `Selamat datang, ${user.name}`}
             </h1>
             <p className="text-zinc-500 dark:text-zinc-400 transition-colors">
               {loading
-                ? "Load note..."
-                : `You have ${notes.length} archived note.`}
+                ? "Load Note..."
+                : language === "en"
+                  ? `You have ${notes.length} archive note.`
+                  : `Kamu punya ${notes.length} catatan arsip.`}
             </p>
           </div>
           <div className="flex items-center gap-2 w-full md:w-auto">
@@ -63,7 +69,9 @@ const ArchivedPage = () => {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500 dark:text-zinc-400" />
               <input
                 type="text"
-                placeholder="Find note..."
+                placeholder={
+                  language === "en" ? "Find note..." : "Cari catatan..."
+                }
                 className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 pl-9 text-sm outline-none transition-colors
                 focus-visible:ring-2 focus-visible:ring-zinc-950 
                 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus-visible:ring-zinc-500"
@@ -104,7 +112,7 @@ const ArchivedPage = () => {
 
                   <div className="flex items-center text-xs text-zinc-400 dark:text-zinc-500 mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800 transition-colors">
                     <Calendar className="mr-1 h-3 w-3" />
-                    {formatDate(note.createdAt)}
+                    {formatDate(note.createdAt, language === "id")}
                   </div>
                 </div>
               </div>
@@ -116,12 +124,16 @@ const ArchivedPage = () => {
               <Search className="h-6 w-6 text-zinc-400 dark:text-zinc-500" />
             </div>
             <h3 className="font-medium text-zinc-900 dark:text-zinc-100">
-              No note found
+              {language === "en" ? "No note found" : "Catatan tidak ditemukan"}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
               {searchQuery
-                ? "Coba kata kunci lain."
-                : "Belum ada catatan yang diarsipkan."}
+                ? language === "en"
+                  ? "Try other keywords"
+                  : "Cari kata kunci lain"
+                : language === "en"
+                  ? "No archive note found"
+                  : "Belum ada catatan yang diarsipkan!"}
             </p>
           </div>
         )}

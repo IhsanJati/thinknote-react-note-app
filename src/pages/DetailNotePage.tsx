@@ -12,9 +12,11 @@ import type { Note } from "../types/types";
 import { Loader2, ArrowLeft, Calendar, Archive } from "lucide-react";
 import { formatDate } from "../lib/utils";
 import { ArchiveNoteButton, DeleteNoteButton } from "../components/Buttons";
+import { useLanguage } from "../contexts/LanguageContexts";
 
 const DetailNotePage = () => {
   const { user } = useAuth();
+  const { language } = useLanguage();
   const { id } = useParams<{ id: string }>();
 
   const [note, setNote] = useState<Note | null>(null);
@@ -88,15 +90,13 @@ const DetailNotePage = () => {
           dark:text-zinc-400 dark:hover:text-zinc-200"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back
+          {language === "en" ? "Back" : "Kembali"}
         </button>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 min-h-[50vh]">
             <Loader2 className="h-10 w-10 animate-spin text-zinc-400 dark:text-zinc-600 mb-4" />
-            <p className="text-zinc-500 dark:text-zinc-400">
-              Load note...
-            </p>
+            <p className="text-zinc-500 dark:text-zinc-400">Load note...</p>
           </div>
         ) : error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center dark:bg-red-900/10 dark:border-red-900">
@@ -110,7 +110,7 @@ const DetailNotePage = () => {
               bg-white border border-red-200 text-red-700 hover:bg-red-100
               dark:bg-zinc-900 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/30"
             >
-              Back to Dashboard
+              {language === "en" ? "Back to Dashboard" : "Kembali ke Beranda"}
             </button>
           </div>
         ) : note ? (
@@ -125,7 +125,9 @@ const DetailNotePage = () => {
                   <div className="flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
                     <div className="flex items-center gap-1.5 bg-zinc-100 px-3 py-1 rounded-full dark:bg-zinc-800 transition-colors">
                       <Calendar className="h-4 w-4" />
-                      <span>{formatDate(note.createdAt)}</span>
+                      <span>
+                        {formatDate(note.createdAt, language === "id")}
+                      </span>
                     </div>
                     {note.archived && (
                       <span
@@ -134,7 +136,7 @@ const DetailNotePage = () => {
                       dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-700/50"
                       >
                         <Archive className="h-3 w-3" />
-                        Archived
+                        {language === "en" ? "Archived" : "Arsip"}
                       </span>
                     )}
                   </div>
@@ -142,16 +144,19 @@ const DetailNotePage = () => {
                 <div className="flex items-center gap-2">
                   {note.archived ? (
                     <ArchiveNoteButton
-                      title="Unarchive"
+                      title={language === "en" ? "Unarchive" : "Batal Arsip"}
                       onClickHandler={onUnarchiveHandler}
                     />
                   ) : (
                     <ArchiveNoteButton
-                      title="Archive"
+                      title={language === "en" ? "Archive" : "Arsipkan"}
                       onClickHandler={onArchiveHandler}
                     />
                   )}
-                  <DeleteNoteButton onClickHandler={onDeleteHandler} />
+                  <DeleteNoteButton
+                    title={language === "en" ? "Delete" : "Hapus"}
+                    onClickHandler={onDeleteHandler}
+                  />
                 </div>
               </div>
             </header>

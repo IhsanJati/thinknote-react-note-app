@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { createNoteSchema, type CretaNoteValues } from "../lib/zod";
 import { createNote } from "../lib/data";
 import { Loader2, Save } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContexts";
 
 const CreateNoteForm = () => {
+  const { language } = useLanguage();
+
   const navigate = useNavigate();
 
   const {
@@ -41,7 +44,7 @@ const CreateNoteForm = () => {
           htmlFor="title"
           className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
         >
-          Title
+          {language === "en" ? "Title" : "Judul"}
         </label>
         <input
           id="title"
@@ -50,7 +53,9 @@ const CreateNoteForm = () => {
           className={`h-10 px-3 py-2 ${baseInputStyles} ${
             errors.title ? errorInputStyles : normalInputStyles
           }`}
-          placeholder="Example: Jarkom Task"
+          placeholder={
+            language === "en" ? "Example: Jarkom Task" : "Contoh: Tugas Jarkom"
+          }
           disabled={isSubmitting}
         />
         {errors.title && (
@@ -64,7 +69,7 @@ const CreateNoteForm = () => {
           htmlFor="body"
           className="block text-sm font-medium mb-2 text-zinc-700 dark:text-zinc-300 transition-colors"
         >
-          Body
+          {language === "en" ? "Body" : "Isi catatan"}
         </label>
         <textarea
           id="body"
@@ -73,7 +78,11 @@ const CreateNoteForm = () => {
           className={`p-3 resize-none ${baseInputStyles} ${
             errors.body ? errorInputStyles : normalInputStyles
           }`}
-          placeholder="Write your note here..."
+          placeholder={
+            language === "en"
+              ? "Write your note here..."
+              : "Tulis catatanmu di sini..."
+          }
           disabled={isSubmitting}
         />
         {errors.body && (
@@ -96,12 +105,12 @@ const CreateNoteForm = () => {
         {isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Saving...
+            {language === "en" ? "Saving..." : "Menyimpan..."}
           </>
         ) : (
           <>
             <Save className="mr-2 h-4 w-4" />
-            Save Note
+            {language === "en" ? "Save Note" : "Simpan Catatan"}
           </>
         )}
       </button>

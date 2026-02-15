@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { MouseEventHandler } from "react";
 
-export const AddNoteButton = () => {
+export const AddNoteButton = ({ label }: { label: string }) => {
   return (
     <Link
       to="/create"
@@ -14,15 +14,17 @@ export const AddNoteButton = () => {
       "
     >
       <Plus className="mr-2 h-4 w-4" />
-      Add
+      {label}
     </Link>
   );
 };
 
 export const DeleteNoteButton = ({
   onClickHandler,
+  title,
 }: {
   onClickHandler: MouseEventHandler<HTMLButtonElement>;
+  title: string;
 }) => {
   return (
     <button
@@ -32,7 +34,7 @@ export const DeleteNoteButton = ({
         text-red-500 hover:bg-red-50 hover:text-red-600
         dark:text-red-400 dark:hover:bg-red-900/20 dark:hover:text-red-300
       "
-      title="Delete"
+      title={title}
     >
       <Trash2 className="h-5 w-5" />
     </button>
